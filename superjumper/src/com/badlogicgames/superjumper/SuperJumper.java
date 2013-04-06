@@ -19,13 +19,16 @@ package com.badlogicgames.superjumper;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.FPSLogger;
+import com.badlogicgames.utils.Log;
 
 public class SuperJumper extends Game {
 	boolean firstTimeCreate = true;
 	FPSLogger fps;
+	final String TAG = getClass().getSimpleName();
 
 	@Override
 	public void create () {
+		Log.d(TAG, "create");
 		Settings.load();
 		Assets.load();
 		setScreen(new MainMenuScreen(this));
@@ -44,6 +47,7 @@ public class SuperJumper extends Game {
 	@Override
 	public void dispose () {
 		super.dispose();
+		Log.d(TAG, "disppose");
 		Settings.save();
 		getScreen().dispose();
 	}
