@@ -23,11 +23,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogicgames.utils.Log;
 
 public class Settings {
+	static String TAG = "Settings";
 	public static boolean soundEnabled = true;
 	public final static int[] highscores = new int[] {100, 80, 50, 30, 10};
 	public final static String file = ".superjumper";
+	static char mEndOfLine ='\n';
 
 	public static void load () {
 		BufferedReader in = null;
@@ -39,6 +42,7 @@ public class Settings {
 			}
 		} catch (Throwable e) {
 			// :( It's ok we have defaults
+			e.printStackTrace();
 		} finally {
 			try {
 				if (in != null) in.close();
@@ -47,16 +51,22 @@ public class Settings {
 		}
 	}
 
+
 	public static void save () {
+		Log.d(TAG, " soundEnabled is "+ soundEnabled );
 		BufferedWriter out = null;
 		try {
 			out = new BufferedWriter(new OutputStreamWriter(Gdx.files.external(file).write(false)));
 			out.write(Boolean.toString(soundEnabled));
+			out.write(mEndOfLine);
 			for (int i = 0; i < 5; i++) {
 				out.write(Integer.toString(highscores[i]));
+				out.write(mEndOfLine);
 			}
 
 		} catch (Throwable e) {
+			Log.d(TAG, "exception e is:" + e);
+			e.printStackTrace();
 		} finally {
 			try {
 				if (out != null) out.close();
