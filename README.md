@@ -6,6 +6,6 @@ use libgdx for game programming.
 
 More info about libgdx :
 
-libgdx.badlogicgames.com
+http://libgdx.badlogicgames.com
 
-code.google.com/p/libgdx
+https://code.google.com/p/libgdx
