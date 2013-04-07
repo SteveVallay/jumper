@@ -229,6 +229,8 @@ public class GameScreen implements Screen {
 	private void presentRunning () {
 		batcher.draw(Assets.pause, 320 - 64, 480 - 64, 64, 64);
 		Assets.font.draw(batcher, scoreString, 16, 480 - 20);
+		//draw high
+		Assets.font.draw(batcher, "Height:"+String.valueOf((int)world.heightSoFar), 16, 480 - 40);
 	}
 
 	private void presentPaused () {
