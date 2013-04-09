@@ -48,10 +48,30 @@ public class SuperJumperAndroid extends AndroidApplication {
         }
 }
 
-There is only one line code beside the entry point: 
-initialize(new SuperJumper(), false);
+There is very simple code here:
+SuperJumpAndroid extends from AndroidApplication.
+The SuperJumper() is refer to code in superjump folder.
+
+whant is the AndroidApplication ? any relationship with android?
+Do you remember that main Activity is the entry point of
+an android application ? Yes, AndroidApplication just is a subClass of Activity.
+Here is the implementation of AndroidApplication in libgdx.
+
+/** An implementation of the {@link Application} interface for Android. Create an {@link Activity} that derives from this class. In
+ * the {@link Activity#onCreate(Bundle)} method call the {@link #initialize(ApplicationListener, boolean)} method specifying the
+ * configuration for the GLSurfaceView.
+ *
+ * @author mzechner */
+public class AndroidApplication extends Activity implements Application {
+           ......
+}
+
+So, it isn't strange we have so less code in SuperJumpAndroid.Thanks to framework libgdx.
 
 The SuperJumper() is refer to code in superjump folder.
+
+3.About the SuperJumper.
+
 
 
 
