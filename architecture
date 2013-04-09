@@ -1,0 +1,57 @@
+This file will record the architecture of this game.
+====================================================
+1.For How to build up libgdx environment , please refer to libgdx wiki page here: 
+http://code.google.com/p/libgdx/  
+and this reference tutorial(a perfect tutorial for game programming):
+http://obviam.net/index.php/table-of-contents/
+
+2.What is a game program? First, it is a program, 
+for any platform (Max,Windows,Linux,iOS,Android...)
+it is an application first.Different platforms similarly
+has an entry point for this application.For example,
+We konw that on Android , every application can has a 
+main Activity and that's the entry point for this apk.
+This component is provide by android platform , so you 
+only need to extends it and you have an basic application,
+you can add others things to implement something.
+Other platforms are similar.
+
+For a game program, it is just the entry point plus the 
+game itself(game contents including game logic , resoruce ,
+and all about this game.). For different platforms , entry 
+points are different, but game itself is same( of cause,
+you can implement it  depend on different platforms, but 
+this will const much more efforts and painful to maintain).
+If we can implement game itsef independent of platforms, it will 
+be very pleasure, libgdx just do this, it will generate entry 
+points code for different platforms in different folder and 
+code about game itself in a seperate folder, platform code will 
+use a very simple code to reference the whole game itsef.
+
+for example: 
+In this simple project , there are folders:
+superjump 
+superjump-android
+superjump-html
+superjump-ios 
+
+The entry point for android , web html and ios code generate in 
+the relative folder, the game itself is in superjump folder which 
+is platform independent.Let's see superjump-android: 
+
+public class SuperJumperAndroid extends AndroidApplication {
+        /** Called when the activity is first created. */
+        @Override
+        public void onCreate (Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                initialize(new SuperJumper(), false);
+        }
+}
+
+There is only one line code beside the entry point: 
+initialize(new SuperJumper(), false);
+
+The SuperJumper() is refer to code in superjump folder.
+
+
+
