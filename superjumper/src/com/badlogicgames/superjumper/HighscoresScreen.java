@@ -34,6 +34,7 @@ public class HighscoresScreen implements Screen {
 	Rectangle backBounds;
 	Vector3 touchPoint;
 	String[] highScores;
+	String[] heightScores;
 	float xOffset = 0;
 
 	public HighscoresScreen (Game game) {
@@ -44,10 +45,16 @@ public class HighscoresScreen implements Screen {
 		backBounds = new Rectangle(0, 0, 64, 64);
 		touchPoint = new Vector3();
 		batcher = new SpriteBatch();
-		highScores = new String[5];
-		for (int i = 0; i < 5; i++) {
-			highScores[i] = i + 1 + ". " + Settings.highscores[i];
-			xOffset = Math.max(Assets.font.getBounds(highScores[i]).width, xOffset);
+		//show height scores
+//		highScores = new String[5];
+//		for (int i = 0; i < 5; i++) {
+//			highScores[i] = i + 1 + ". " + Settings.highscores[i];
+//			xOffset = Math.max(Assets.font.getBounds(highScores[i]).width, xOffset);
+//		}
+		heightScores = new String[Settings.heightScores.length];
+		for (int i = 0; i < Settings.heightScores.length; i++) {
+			heightScores[i] = i + 1 + "." + Settings.heightScores[i];
+			xOffset = Math.max(Assets.font.getBounds(heightScores[i]).width, xOffset);
 		}
 		xOffset = 160 - xOffset / 2 + Assets.font.getSpaceWidth() / 2;
 	}
@@ -80,8 +87,13 @@ public class HighscoresScreen implements Screen {
 		batcher.draw(Assets.highScoresRegion, 10, 360 - 16, 300, 33);
 
 		float y = 230;
-		for (int i = 4; i >= 0; i--) {
-			Assets.font.draw(batcher, highScores[i], xOffset, y);
+		//draw height scores.
+//		for (int i = 4; i >= 0; i--) {
+//			Assets.font.draw(batcher, highScores[i], xOffset, y);
+//			y += Assets.font.getLineHeight();
+//		}
+		for (int i = Settings.heightScores.length - 1; i >= 0; i--) {
+			Assets.font.draw(batcher, heightScores[i], xOffset, y);
 			y += Assets.font.getLineHeight();
 		}
 

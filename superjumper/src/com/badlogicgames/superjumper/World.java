@@ -222,4 +222,8 @@ public class World {
 			state = WORLD_STATE_GAME_OVER;
 		}
 	}
+	//format height to int.
+	public static int convertHeightFormat(float height){
+		return (int)(height*10);
+	}
 }

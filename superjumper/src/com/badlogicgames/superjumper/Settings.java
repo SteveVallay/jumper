@@ -29,6 +29,8 @@ public class Settings {
 	static String TAG = "Settings";
 	public static boolean soundEnabled = true;
 	public final static int[] highscores = new int[] {100, 80, 50, 30, 10};
+	//record the height.
+	public final static int[] heightScores = new int[] {0, 0, 0, 0, 0};
 	public final static String file = ".superjumper";
 	static char mEndOfLine ='\n';
 
@@ -39,6 +41,10 @@ public class Settings {
 			soundEnabled = Boolean.parseBoolean(in.readLine());
 			for (int i = 0; i < 5; i++) {
 				highscores[i] = Integer.parseInt(in.readLine());
+			}
+			//read height scores from file.
+			for (int i = 0; i < heightScores.length; i++) {
+				heightScores[i] = Integer.parseInt(in.readLine());
 			}
 		} catch (Throwable e) {
 			// :( It's ok we have defaults
@@ -63,6 +69,11 @@ public class Settings {
 				out.write(Integer.toString(highscores[i]));
 				out.write(mEndOfLine);
 			}
+			for(int i =0; i < heightScores.length; i++){
+				Log.d(TAG, "score " + i+ " is" + heightScores[i]);
+				out.write(Integer.toString(heightScores[i]));
+				out.write(mEndOfLine);
+			}
 
 		} catch (Throwable e) {
 			Log.d(TAG, "exception e is:" + e);
@@ -81,6 +92,18 @@ public class Settings {
 				for (int j = 4; j > i; j--)
 					highscores[j] = highscores[j - 1];
 				highscores[i] = score;
+				break;
+			}
+		}
+	}
+	//update new height scores.
+	public static void addHeightScore (int heightScore) {
+		for (int i = 0; i < heightScores.length; i++) {
+			if (heightScores[i] < heightScore) {
+				for (int j = heightScores.length - 1; j > i; j--) {
+					heightScores[j] = heightScores[j - 1];
+				}
+				heightScores[i] = heightScore;
 				break;
 			}
 		}

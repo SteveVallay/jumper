@@ -51,7 +51,9 @@ public class GameScreen implements Screen {
 	Rectangle resumeBounds;
 	Rectangle quitBounds;
 	int lastScore;
+	int lastHeightScore;
 	String scoreString;
+	String heightScoreString;
 
 	public GameScreen (Game game) {
 		this.game = game;
@@ -88,7 +90,9 @@ public class GameScreen implements Screen {
 		resumeBounds = new Rectangle(160 - 96, 240, 192, 36);
 		quitBounds = new Rectangle(160 - 96, 240 - 36, 192, 36);
 		lastScore = 0;
+		lastHeightScore = 0;
 		scoreString = "SCORE: 0";
+		heightScoreString = "SCORE: 0";
 	}
 
 	public void update (float deltaTime) {
@@ -145,17 +149,30 @@ public class GameScreen implements Screen {
 			lastScore = world.score;
 			scoreString = "SCORE: " + lastScore;
 		}
+		if (World.convertHeightFormat(world.heightSoFar) != lastHeightScore){
+			lastHeightScore = World.convertHeightFormat(world.heightSoFar);
+			heightScoreString = "SCORE: " + lastHeightScore;
+		}
 		if (world.state == World.WORLD_STATE_NEXT_LEVEL) {
 			state = GAME_LEVEL_END;
 		}
 		if (world.state == World.WORLD_STATE_GAME_OVER) {
 			state = GAME_OVER;
-			if (lastScore >= Settings.highscores[4])
-				scoreString = "NEW HIGHSCORE: " + lastScore;
-			else
-				scoreString = "SCORE: " + lastScore;
-			Settings.addScore(lastScore);
+			//do not show score , show height.
+//			if (lastScore >= Settings.highscores[4])
+//				scoreString = "NEW HIGHSCORE: " + lastScore;
+//			else
+//				scoreString = "SCORE: " + lastScore;
+//			Settings.addScore(lastScore);
+//			Settings.save();
+			if (lastHeightScore >= Settings.heightScores[Settings.heightScores.length - 1]) {
+				heightScoreString = "NEW HIGH: " + lastHeightScore;
+			} else {
+				scoreString = "SCORE: " + lastHeightScore;
+			}
+			Settings.addHeightScore(lastHeightScore);
 			Settings.save();
+
 		}
 	}
 
@@ -182,6 +199,8 @@ public class GameScreen implements Screen {
 			world = new World(worldListener);
 			renderer = new WorldRenderer(batcher, world);
 			world.score = lastScore;
+			//convert back
+			world.heightSoFar = lastHeightScore/10;
 			state = GAME_READY;
 		}
 	}
@@ -228,14 +247,16 @@ public class GameScreen implements Screen {
 
 	private void presentRunning () {
 		batcher.draw(Assets.pause, 320 - 64, 480 - 64, 64, 64);
-		Assets.font.draw(batcher, scoreString, 16, 480 - 20);
-		//draw high
-		Assets.font.draw(batcher, "Height:"+String.valueOf((int)world.heightSoFar), 16, 480 - 40);
+		//draw height score
+		//Assets.font.draw(batcher, scoreString, 16, 480 - 20);
+		Assets.font.draw(batcher, heightScoreString, 16, 480 - 20);
 	}
 
 	private void presentPaused () {
 		batcher.draw(Assets.pauseMenu, 160 - 192 / 2, 240 - 96 / 2, 192, 96);
-		Assets.font.draw(batcher, scoreString, 16, 480 - 20);
+		//draw height score.
+		//Assets.font.draw(batcher, scoreString, 16, 480 - 20);
+		Assets.font.draw(batcher, heightScoreString, 16, 480 - 40);
 	}
 
 	private void presentLevelEnd () {
@@ -249,8 +270,11 @@ public class GameScreen implements Screen {
 
 	private void presentGameOver () {
 		batcher.draw(Assets.gameOver, 160 - 160 / 2, 240 - 96 / 2, 160, 96);
-		float scoreWidth = Assets.font.getBounds(scoreString).width;
-		Assets.font.draw(batcher, scoreString, 160 - scoreWidth / 2, 480 - 20);
+		//draw height score.
+//		float scoreWidth = Assets.font.getBounds(scoreString).width;
+//		Assets.font.draw(batcher, scoreString, 160 - scoreWidth / 2, 480 - 20);
+		float scoreWidth = Assets.font.getBounds(heightScoreString).width;
+		Assets.font.draw(batcher, heightScoreString, 160 - scoreWidth / 2, 480 - 20);
 	}
 
 	@Override
