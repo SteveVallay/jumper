@@ -71,6 +71,35 @@ So, it isn't strange we have so less code in SuperJumpAndroid.Thanks to framewor
 The SuperJumper() is refer to code in superjump folder.
 
 3.About the SuperJumper.
+First let's see what is in a game from a player's perspective.
+when the player open the game , he will see an screen with main
+menus(as play,help,scores,settings and so on) which we call it main screen,
+if player press play , it will enter a new screen which display
+the core content of the game which we called game screen (from main screen to core game screen
+there maybe more screens if game has several modes or levels).Similarly for help,
+scores,settings there also have screens as help screen, scores screen,settings screen.
+Maybe not one screen for each one. Now we see , a game is composed by several screens, the main
+screen connects all other screens, other screens may be connected with each other.
+All game objects , neither dynamic or static, all displayed on the screens, the dynamic things
+contains not only objects, but also their status , their behaviors, which is the game logic.
+Is there any other things here in a game ? maybe music and player's data.
+
+Now based the basic view of a player , let's have a look at the code architecture.
+Under the super-jumper folder:
+data contains the resources(pictures,fonts,music)
+libs contains the gdx libraries.
+src  contains all the source file.
+data and libs are easy to understand, let's have a look at the source files:
+under the package com.badlogicgames.superjumper:
+SuperJumper.java is the main entery of this game, SuperJumper extends from gdx class Game which implement Application interface play the role of the entry of an application.
+MainMenuScreen.java GameScreen.java HelpScreen*.java HighscoresScreen.java  are the abstract of the screens we just talked previously.
+GameObject.java DynamicGameObject.java Bob.java Castle.java Coin.java Platform.java Spring.java Squirrel.java just the objects we seen in the game screens.
+World.java just combines all the objects making up the game world.
+WorldRender.java used for render the whole world.
+Settings.java record the player's data(music setting ,scores and so on)
+Assets.java used to load all the resources.
+Animation.java used to control how to animate from one state to another state.
+OverlapTest.java is just to tool to judge whether two objects have collided.
 
 
 
