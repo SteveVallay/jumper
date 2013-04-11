@@ -127,11 +127,43 @@ OverlapTest.java is just to tool to judge whether two objects have collided.
 4.Detail code:Let's begin to enter the world of code. 
 SuperJumper.java is the entry. SuperJumper class just extends from gdx Game class.
 
-Let's the docs about the Game class:  
+Let's have a look at the docs about the Game class:  
 An ApplicationListener that delegates to a Screen. This allows an application to easily have multiple screens.
 
-Use this class we can use setScreen(), switch from an old  screen to a new screen.
+With this class's interface setScreen(), we can switch from an old  screen to a new screen.
 
+In SuperJumper :
+create:
+ -load settings.
+ -load resources.
+ -set main screen.
+render: 
+ -will be called in a loop to render geme views.
+dispose:
+ -dismiss screens.
+ -save settings.
+In MainMenuScreen:
+constructor: 
+ -OrthographicCamera ? guiCam ? can not understand this class.
+ -SpriteBatch ,batcher, understand this can compose many Sprites. 
+ -xxxBounds are the position of the rectangle for the view on the screen.
+ -touchPoint :used to get touch event position.
 
+render: this func will be called in a loop to render this screen all the time when this screen shows. 
+ -update:update the models 
+ -draw：draw the views.
+ 
+update: 
+ -if get the touch event: 
+  -touch position in play bounds, go to GameScreen.
+  -touch position in high scores bounds, go to HighscoresScreen.
+  -touch position in help bounds,go to HelpScreen.
+  -touch position in sound bounds, enable/disable sound .
+draw:
+ -?not under stand the gl operation , guiCam operation and batcher.setProjectionMatrix.
+ -draw  background.
+ -draw logo, main menu, sound icon sequentially.notice that batcher.enableBlending, to make 
+  sure when put A view on B view , A's background will be transparent.
 
+In GameScreen:
 
