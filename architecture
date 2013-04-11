@@ -90,16 +90,47 @@ data contains the resources(pictures,fonts,music)
 libs contains the gdx libraries.
 src  contains all the source file.
 data and libs are easy to understand, let's have a look at the source files:
+
 under the package com.badlogicgames.superjumper:
 SuperJumper.java is the main entery of this game, SuperJumper extends from gdx class Game which implement Application interface play the role of the entry of an application.
-MainMenuScreen.java GameScreen.java HelpScreen*.java HighscoresScreen.java  are the abstract of the screens we just talked previously.
-GameObject.java DynamicGameObject.java Bob.java Castle.java Coin.java Platform.java Spring.java Squirrel.java just the objects we seen in the game screens.
+
+MainMenuScreen.java 
+GameScreen.java 
+HelpScreen*.java 
+HighscoresScreen.java  
+
+are the abstract of the screens we just talked previously.
+
+GameObject.java 
+DynamicGameObject.java 
+Bob.java
+Castle.java 
+Coin.java 
+Platform.java 
+Spring.java 
+Squirrel.java 
+
+just the objects we have seen in the game screens.
+
 World.java just combines all the objects making up the game world.
+
 WorldRender.java used for render the whole world.
+
 Settings.java record the player's data(music setting ,scores and so on)
+
 Assets.java used to load all the resources.
+
 Animation.java used to control how to animate from one state to another state.
+
 OverlapTest.java is just to tool to judge whether two objects have collided.
+
+4.Detail code:Let's begin to enter the world of code. 
+SuperJumper.java is the entry. SuperJumper class just extends from gdx Game class.
+
+Let's the docs about the Game class:  
+An ApplicationListener that delegates to a Screen. This allows an application to easily have multiple screens.
+
+Use this class we can use setScreen(), switch from an old  screen to a new screen.
 
 
 
