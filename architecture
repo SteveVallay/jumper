@@ -226,7 +226,14 @@ render: main loop
     -draw highscore region.
     -draw height scores.
     -back arrow.
-
+In HelpScreenX:
+constructor:
+  -initialize guiCam, next bounds,touchPoint,spriteBatch,help image,help region.
+render:
+  -update:if next arrow touched , go to next help.
+  -draw:draw help image and next arrow.
+    -?gl.Disable(GL10.GL_BLEND).
+ 
 
 
 
