@@ -199,8 +199,6 @@ public class GameScreen implements Screen {
 			world = new World(worldListener);
 			renderer = new WorldRenderer(batcher, world);
 			world.score = lastScore;
-			//convert back
-			world.heightSoFar = lastHeightScore/10;
 			state = GAME_READY;
 		}
 	}
