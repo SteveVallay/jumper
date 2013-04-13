@@ -45,18 +45,26 @@ public class HighscoresScreen implements Screen {
 		backBounds = new Rectangle(0, 0, 64, 64);
 		touchPoint = new Vector3();
 		batcher = new SpriteBatch();
-		//show height scores
+		//[do not show coin scores any more][start]
 //		highScores = new String[5];
 //		for (int i = 0; i < 5; i++) {
 //			highScores[i] = i + 1 + ". " + Settings.highscores[i];
 //			xOffset = Math.max(Assets.font.getBounds(highScores[i]).width, xOffset);
 //		}
+		//[do not show coin scores any more][end]
+		//[show height ][start]
 		heightScores = new String[Settings.heightScores.length];
 		for (int i = 0; i < Settings.heightScores.length; i++) {
 			heightScores[i] = i + 1 + "." + Settings.heightScores[i];
 			xOffset = Math.max(Assets.font.getBounds(heightScores[i]).width, xOffset);
 		}
+		//[show height ][end]
+		//[put it center of the guiCam][start]
+		//maybe this can be abstract to a function.
+		//offset = (width,width_of_content)
+		//offset = (width- width_of_content)/2
 		xOffset = 160 - xOffset / 2 + Assets.font.getSpaceWidth() / 2;
+		//[put it center of the guiCam][end]
 	}
 
 	public void update (float deltaTime) {
@@ -87,16 +95,18 @@ public class HighscoresScreen implements Screen {
 		batcher.draw(Assets.highScoresRegion, 10, 360 - 16, 300, 33);
 
 		float y = 230;
-		//draw height scores.
+		//[do not draw coin scores any more][start]
 //		for (int i = 4; i >= 0; i--) {
 //			Assets.font.draw(batcher, highScores[i], xOffset, y);
 //			y += Assets.font.getLineHeight();
 //		}
+		//[do not draw coin scores any more][end]
+		//[draw heights][start]
 		for (int i = Settings.heightScores.length - 1; i >= 0; i--) {
 			Assets.font.draw(batcher, heightScores[i], xOffset, y);
 			y += Assets.font.getLineHeight();
 		}
-
+		//[draw heights][end]
 		batcher.draw(Assets.arrow, 0, 0, 64, 64);
 		batcher.end();
 	}

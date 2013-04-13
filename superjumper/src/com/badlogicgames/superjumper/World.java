@@ -70,8 +70,10 @@ public class World {
 
 	private void generateLevel () {
 		float y = Platform.PLATFORM_HEIGHT / 2;
+		//[maxJumpHeight = v^2/2g(since gt^2/2 = height, gt = v, according to free fall)]
 		float maxJumpHeight = Bob.BOB_JUMP_VELOCITY * Bob.BOB_JUMP_VELOCITY / (2 * -gravity.y);
 		while (y < WORLD_HEIGHT - WORLD_WIDTH / 2) {
+			//[random the platforms' position , notice that the (x,y) of platfom is its center position.]
 			int type = rand.nextFloat() > 0.8f ? Platform.PLATFORM_TYPE_MOVING : Platform.PLATFORM_TYPE_STATIC;
 			float x = rand.nextFloat() * (WORLD_WIDTH - Platform.PLATFORM_WIDTH) + Platform.PLATFORM_WIDTH / 2;
 

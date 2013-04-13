@@ -48,10 +48,253 @@ public class SuperJumperAndroid extends AndroidApplication {
         }
 }
 
-There is only one line code beside the entry point: 
-initialize(new SuperJumper(), false);
+There is very simple code here:
+SuperJumpAndroid extends from AndroidApplication.
+The SuperJumper() is refer to code in superjump folder.
+
+whant is the AndroidApplication ? any relationship with android?
+Do you remember that main Activity is the entry point of
+an android application ? Yes, AndroidApplication just is a subClass of Activity.
+Here is the implementation of AndroidApplication in libgdx.
+
+/** An implementation of the {@link Application} interface for Android. Create an {@link Activity} that derives from this class. In
+ * the {@link Activity#onCreate(Bundle)} method call the {@link #initialize(ApplicationListener, boolean)} method specifying the
+ * configuration for the GLSurfaceView.
+ *
+ * @author mzechner */
+public class AndroidApplication extends Activity implements Application {
+           ......
+}
+
+So, it isn't strange we have so less code in SuperJumpAndroid.Thanks to framework libgdx.
 
 The SuperJumper() is refer to code in superjump folder.
+
+3.About the SuperJumper.
+First let's see what is in a game from a player's perspective.
+when the player open the game , he will see an screen with main
+menus(as play,help,scores,settings and so on) which we call it main screen,
+if player press play , it will enter a new screen which display
+the core content of the game which we called game screen (from main screen to core game screen
+there maybe more screens if game has several modes or levels).Similarly for help,
+scores,settings there also have screens as help screen, scores screen,settings screen.
+Maybe not one screen for each one. Now we see , a game is composed by several screens, the main
+screen connects all other screens, other screens may be connected with each other.
+All game objects , neither dynamic or static, all displayed on the screens, the dynamic things
+contains not only objects, but also their status , their behaviors, which is the game logic.
+Is there any other things here in a game ? maybe music and player's data.
+
+Now based the basic view of a player , let's have a look at the code architecture.
+Under the super-jumper folder:
+data contains the resources(pictures,fonts,music)
+libs contains the gdx libraries.
+src  contains all the source file.
+data and libs are easy to understand, let's have a look at the source files:
+
+under the package com.badlogicgames.superjumper:
+SuperJumper.java is the main entery of this game, SuperJumper extends from gdx class Game which implement Application interface play the role of the entry of an application.
+
+MainMenuScreen.java 
+GameScreen.java 
+HelpScreen*.java 
+HighscoresScreen.java  
+
+are the abstract of the screens we just talked previously.
+
+GameObject.java 
+DynamicGameObject.java 
+Bob.java
+Castle.java 
+Coin.java 
+Platform.java 
+Spring.java 
+Squirrel.java 
+
+just the objects we have seen in the game screens.
+
+World.java just combines all the objects making up the game world.
+
+WorldRender.java used for render the whole world.
+
+Settings.java record the player's data(music setting ,scores and so on)
+
+Assets.java used to load all the resources.
+
+Animation.java used to control how to animate from one state to another state.
+
+OverlapTest.java is just to tool to judge whether two objects have collided.
+
+4.Detail code:Let's begin to enter the world of code. 
+SuperJumper.java is the entry. SuperJumper class just extends from gdx Game class.
+
+Let's have a look at the docs about the Game class:  
+An ApplicationListener that delegates to a Screen. This allows an application to easily have multiple screens.
+
+With this class's interface setScreen(), we can switch from an old  screen to a new screen.
+
+In SuperJumper :
+create:
+ -load settings.
+ -load resources.
+ -set main screen.
+render: 
+ -will be called in a loop to render geme views.
+dispose:
+ -dismiss screens.
+ -save settings.
+In MainMenuScreen:
+constructor: 
+ -? not understand this OrthographicCamera.
+ -SpriteBatch ,batcher, understand this can compose many Sprites. 
+ -xxxBounds are the position of the rectangle for the view on the screen.
+ -touchPoint :used to get touch event position.
+
+render: this func will be called in a loop to render this screen all the time when this screen shows. 
+ -update:update the models 
+ -draw：draw the views.
+ 
+update: 
+ -if get the touch event: 
+  -touch position in play bounds, go to GameScreen.
+  -touch position in high scores bounds, go to HighscoresScreen.
+  -touch position in help bounds,go to HelpScreen.
+  -touch position in sound bounds, enable/disable sound .
+draw:
+ -? not understand the gl operation , guiCam operation and batcher.setProjectionMatrix.
+ -draw  background.
+ -draw logo, main menu, sound icon sequentially.notice that batcher.enableBlending, to make 
+  sure when put A view on B view , A's background will be transparent.
+
+In GameScreen:
+ = game status:  ready , running ,paused,level-end,game-over .
+ = refer game: every screen has a reference to game object. 
+ =?OrthographicCamera guiCam, touchPoint, spriteBatch similiar with MainMenuScreen.
+ = world,compose all objects,that is the world of the game.
+ = worldRender, render  the whole world.
+ = worldListener:listen to event and play sound.
+ = xxxBounds are bounds of pause,resume,quit rectangle.
+ = scores : score of coins and height.
+
+--Let's start from the render loop: 
+render :
+ -update: update data.
+ -draw : draw  the world. 
+update:
+ -not sure about the deltaTime, it's related to control the fps.
+ -update data according to game status.this seems a simple finite state machine,
+   just updating data according to a status.Also status change duing the update.
+   -updateReady:
+     -ready will change to running if anywhere touched.
+   -updateRunning:?deltaTime 
+     -if pause area touched , to to pause status.
+     -updating world data , passing the accelerometerX.
+     -update socres.
+     -update status according world's state.
+   -updatePaused:
+     -resume to running state, quit to main menu.
+   -updateLevelEnd:
+     -create a new world,world render , set game state to ready.(this is suppose to start the game again since there is only one level)
+     -@I think there should be an interface nextLevel in the world or Level_2_World extends world to generate another level.
+   -updateGameOver:
+     -touch anywhere to go to main meun screen.
+draw:
+  -?opengl related set.not understand.	
+  -worldRender render.(update orthgraphiccamera, when bob's position up to position of this camera. player just look through this camera, so when bob jumps, move up 
+   camera , you will see the things according to bob's position)
+  -?guiCam.update ,batcher.setProjectionMatrix .batcher.enableBlending
+  -game ready: 
+    -draw ready texture area.
+  -game running: 
+    -draw pause and score texture areas.
+  -game paused: 
+    -draw menus(resume ,quit)
+  -game level end: 
+    -draw "pricess is in another castle"
+  -game over: 
+    -draw game over and score.
+
+In HighscoresScreen:
+constructor:
+  -initialize guiCam,back bounds(back arrow to main screen),touchPoint,spriteBatch.
+  -get top five height scores and format them.
+  - 
+render: main loop 
+  -update:touch back arrow to back to main menu screen.
+  -draw:
+    -guiCam update.
+    -draw background.
+    -draw highscore region.
+    -draw height scores.
+    -back arrow.
+In HelpScreenX:
+constructor:
+  -initialize guiCam, next bounds,touchPoint,spriteBatch,help image,help region.
+render:
+  -update:if next arrow touched , go to next help.
+  -draw:draw help image and next arrow.
+    -?gl.Disable(GL10.GL_BLEND).
+ 
+In World:
+
+interface: world listener(listen to bob's hit events)
+variables:
+  -world width 10 ? not understand this value , but this value just match worldRender's width. so I think this have no
+   reltionship with the true width of devices.(if diaplay is 320x480 , this 10 match to 32,so height is 15)
+  -world height 15*20, 20s of screen height.
+  -world state:
+    -running
+    -next level
+    -game over.
+  -grivity:the free fall grivity.
+
+  -bob.
+  -platforms
+  -springs
+  -squirrels
+  -coins.
+  -castle
+
+  -rand:for random
+  -heightSoFar, record bob's height.
+  -score:collected coins.
+
+constructor:
+  -initialize game objects: bob,platforms,springs,squirrels,coins.
+  -generateLevel
+    -generate game objects.
+  -initialize heightSoFar,score,state.
+generateLevel:
+  -maxJumpHeight = v^2/2g(since gt^2/2 = height, gt = v, according to free fall)
+  -loop y to world height to generate  objects.
+    -random the platforms' type
+    -random the platforms' position , notice that the (x,y) of platfom is its center position.
+    -random springs, springs position just up the platforms,(center of springs(y) = center of platfom + half platform + half spring).
+    -random squirrels, squirrels' position will up more to platfoms.
+    -random coins,  coins will up more to platforms.
+    -plus y in loop, plus maxJumpHeight-0.5 and minus of (maxJumpHeight)/3. to make sure every jump can met an platfom.
+  -castle is at the top of the world.
+update:
+ -updateBob
+   -calculate bob's velocity according to the accelerometerX,bob.update().calculate heightSoFar.
+ -updatePlatform
+   -remove platforms pulverized.
+ -updateSquirrels
+   -squirrels.update
+ -updateCoins
+   -coins.update
+ -checkCollisions
+   -checkPlatformCollisions: if bob's velocity < 0 and collided with platform, bob hit platform.
+   -checkSquirrelsCollisions: bob hit squirrels.
+   -checkItemCollisions:
+     -collect coins.
+     -if bob's velocity < 0 and collided with springs, bob's hit springs.
+   -checkCastle Collisions: if bob collided with castle, next level then.
+ -checkGameOver:height so far -7.5(half screen height) > bob.height which means bob fall down low to screen bottom. game over.
+ -convertHeightFormat : display a beautiful number for player.
+
+
+
+
 
 
 
