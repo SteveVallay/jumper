@@ -158,19 +158,19 @@ public class GameScreen implements Screen {
 		}
 		if (world.state == World.WORLD_STATE_GAME_OVER) {
 			state = GAME_OVER;
+			//[draw height instead of coin scores][start]
 			//do not show score , show height.
 //			if (lastScore >= Settings.highscores[4])
 //				scoreString = "NEW HIGHSCORE: " + lastScore;
 //			else
 //				scoreString = "SCORE: " + lastScore;
-//			Settings.addScore(lastScore);
-//			Settings.save();
 			if (lastHeightScore >= Settings.heightScores[Settings.heightScores.length - 1]) {
 				heightScoreString = "NEW HIGH: " + lastHeightScore;
 			} else {
 				scoreString = "SCORE: " + lastHeightScore;
 			}
 			Settings.addHeightScore(lastHeightScore);
+			//[draw height instead of coin scores][end]
 			Settings.save();
 
 		}
@@ -245,16 +245,18 @@ public class GameScreen implements Screen {
 
 	private void presentRunning () {
 		batcher.draw(Assets.pause, 320 - 64, 480 - 64, 64, 64);
-		//draw height score
+		//[draw height instead of coin scores][start]
 		//Assets.font.draw(batcher, scoreString, 16, 480 - 20);
 		Assets.font.draw(batcher, heightScoreString, 16, 480 - 20);
+		//[draw height instead of coin scores][end]
 	}
 
 	private void presentPaused () {
 		batcher.draw(Assets.pauseMenu, 160 - 192 / 2, 240 - 96 / 2, 192, 96);
-		//draw height score.
+		//[draw height instead of coin scores][start]
 		//Assets.font.draw(batcher, scoreString, 16, 480 - 20);
 		Assets.font.draw(batcher, heightScoreString, 16, 480 - 40);
+		//[draw height instead of coin scores][end]
 	}
 
 	private void presentLevelEnd () {
@@ -268,11 +270,12 @@ public class GameScreen implements Screen {
 
 	private void presentGameOver () {
 		batcher.draw(Assets.gameOver, 160 - 160 / 2, 240 - 96 / 2, 160, 96);
-		//draw height score.
+		//[draw height instead of coin scores][start]
 //		float scoreWidth = Assets.font.getBounds(scoreString).width;
 //		Assets.font.draw(batcher, scoreString, 160 - scoreWidth / 2, 480 - 20);
 		float scoreWidth = Assets.font.getBounds(heightScoreString).width;
 		Assets.font.draw(batcher, heightScoreString, 160 - scoreWidth / 2, 480 - 20);
+		//[draw height instead of coin scores][end]
 	}
 
 	@Override
