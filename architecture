@@ -234,27 +234,63 @@ render:
   -draw:draw help image and next arrow.
     -?gl.Disable(GL10.GL_BLEND).
  
+In World:
 
+interface: world listener(listen to bob's hit events)
+variables:
+  -world width 10 ? not understand this value , but this value just match worldRender's width. so I think this have no
+   reltionship with the true width of devices.(if diaplay is 320x480 , this 10 match to 32,so height is 15)
+  -world height 15*20, 20s of screen height.
+  -world state:
+    -running
+    -next level
+    -game over.
+  -grivity:the free fall grivity.
 
+  -bob.
+  -platforms
+  -springs
+  -squirrels
+  -coins.
+  -castle
 
+  -rand:for random
+  -heightSoFar, record bob's height.
+  -score:collected coins.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+constructor:
+  -initialize game objects: bob,platforms,springs,squirrels,coins.
+  -generateLevel
+    -generate game objects.
+  -initialize heightSoFar,score,state.
+generateLevel:
+  -maxJumpHeight = v^2/2g(since gt^2/2 = height, gt = v, according to free fall)
+  -loop y to world height to generate  objects.
+    -random the platforms' type
+    -random the platforms' position , notice that the (x,y) of platfom is its center position.
+    -random springs, springs position just up the platforms,(center of springs(y) = center of platfom + half platform + half spring).
+    -random squirrels, squirrels' position will up more to platfoms.
+    -random coins,  coins will up more to platforms.
+    -plus y in loop, plus maxJumpHeight-0.5 and minus of (maxJumpHeight)/3. to make sure every jump can met an platfom.
+  -castle is at the top of the world.
+update:
+ -updateBob
+   -calculate bob's velocity according to the accelerometerX,bob.update().calculate heightSoFar.
+ -updatePlatform
+   -remove platforms pulverized.
+ -updateSquirrels
+   -squirrels.update
+ -updateCoins
+   -coins.update
+ -checkCollisions
+   -checkPlatformCollisions: if bob's velocity < 0 and collided with platform, bob hit platform.
+   -checkSquirrelsCollisions: bob hit squirrels.
+   -checkItemCollisions:
+     -collect coins.
+     -if bob's velocity < 0 and collided with springs, bob's hit springs.
+   -checkCastle Collisions: if bob collided with castle, next level then.
+ -checkGameOver:height so far -7.5(half screen height) > bob.height which means bob fall down low to screen bottom. game over.
+ -convertHeightFormat : display a beautiful number for player.
 
 
 
