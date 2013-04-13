@@ -166,4 +166,54 @@ draw:
   sure when put A view on B view , A's background will be transparent.
 
 In GameScreen:
+ = game status:  ready , running ,paused,level-end,game-over .
+ = refer game: every screen has a reference to game object. 
+ =?OrthographicCamera guiCam, touchPoint, spriteBatch similiar with MainMenuScreen.
+ = world,compose all objects,that is the world of the game.
+ = worldRender, render  the whole world.
+ = worldListener:listen to event and play sound.
+ = xxxBounds are bounds of pause,resume,quit rectangle.
+ = scores : score of coins and height.
+
+--Let's start from the render loop: 
+render :
+ -update: update data.
+ -draw : draw  the world. 
+update:
+ -not sure about the deltaTime, it's related to control the fps.
+ -update data according to game status.this seems a simple finite state machine,
+   just updating data according to a status.Also status change duing the update.
+   -updateReady:
+     -ready will change to running if anywhere touched.
+   -updateRunning:?deltaTime 
+     -if pause area touched , to to pause status.
+     -updating world data , passing the accelerometerX.
+     -update socres.
+     -update status according world's state.
+   -updatePaused:
+     -resume to running state, quit to main menu.
+   -updateLevelEnd:
+     -create a new world,world render , set game state to ready.(this is suppose to start the game again since there is only one level)
+     -@I think there should be an interface nextLevel in the world or Level_2_World extends world to generate another level.
+   -updateGameOver:
+     -touch anywhere to go to main meun screen.
+draw:
+  -?opengl related set.not understand.	
+  -worldRender render.(update orthgraphiccamera, when bob's position up to position of this camera. player just look through this camera, so when bob jumps, move up 
+   camera , you will see the things according to bob's position)
+  -?guiCam.update ,batcher.setProjectionMatrix .batcher.enableBlending
+  -game ready: 
+    -draw ready texture area.
+  -game running: 
+    -draw pause and score texture areas.
+  -game paused: 
+    -draw menus(resume ,quit)
+  -game level end: 
+    -draw "pricess is in another castle"
+  -game over: 
+    -draw game over and score.
+
+In HighscoresScreen:
+
+         
 
