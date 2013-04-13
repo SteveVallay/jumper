@@ -101,7 +101,6 @@ public class HelpScreen2 implements Screen {
 
 	@Override
 	public void pause () {
-		helpImage.dispose();
 	}
 
 	@Override
@@ -110,5 +109,6 @@ public class HelpScreen2 implements Screen {
 
 	@Override
 	public void dispose () {
+		helpImage.dispose();
 	}
 }
