@@ -214,6 +214,44 @@ draw:
     -draw game over and score.
 
 In HighscoresScreen:
+constructor:
+  -initialize guiCam,back bounds(back arrow to main screen),touchPoint,spriteBatch.
+  -get top five height scores and format them.
+  - 
+render: main loop 
+  -update:touch back arrow to back to main menu screen.
+  -draw:
+    -guiCam update.
+    -draw background.
+    -draw highscore region.
+    -draw height scores.
+    -back arrow.
 
-         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
