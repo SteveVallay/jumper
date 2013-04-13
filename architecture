@@ -144,7 +144,7 @@ dispose:
  -save settings.
 In MainMenuScreen:
 constructor: 
- -OrthographicCamera ? guiCam ? can not understand this class.
+ -? not understand this OrthographicCamera.
  -SpriteBatch ,batcher, understand this can compose many Sprites. 
  -xxxBounds are the position of the rectangle for the view on the screen.
  -touchPoint :used to get touch event position.
@@ -160,7 +160,7 @@ update:
   -touch position in help bounds,go to HelpScreen.
   -touch position in sound bounds, enable/disable sound .
 draw:
- -?not under stand the gl operation , guiCam operation and batcher.setProjectionMatrix.
+ -? not understand the gl operation , guiCam operation and batcher.setProjectionMatrix.
  -draw  background.
  -draw logo, main menu, sound icon sequentially.notice that batcher.enableBlending, to make 
   sure when put A view on B view , A's background will be transparent.
