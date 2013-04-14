@@ -278,7 +278,7 @@ update:
    -calculate bob's velocity according to the accelerometerX,bob.update().calculate heightSoFar.
  -updatePlatform
    -remove platforms pulverized.
- -updateSquirrels
+ -updateSquirrels.
    -squirrels.update
  -updateCoins
    -coins.update
@@ -291,10 +291,71 @@ update:
    -checkCastle Collisions: if bob collided with castle, next level then.
  -checkGameOver:height so far -7.5(half screen height) > bob.height which means bob fall down low to screen bottom. game over.
  -convertHeightFormat : display a beautiful number for player.
-
-
-
-
-
-
+WorldRender:
+ -variables
+   -FRUSTUM_WIDTH,10,FRUSTUM_HEIGHT,15.
+   -World
+   -OrthographicCamera.
+   -SpriteBatch
+   -texture,background
+ -construct:
+   -initialization world,cam,batch.
+ -render:
+   -if bob's position higher than cam's position , need move up cam to focus screen to bob as center.(this means screen will 
+    move up with bob).
+   -update cam , set upp batch.
+   -renderBackground.
+   -renderObject
+ -renderBackground:
+   -just draw background full of the cam.(notice that the cam's position will updated to bob's position of the world)
+ -renderObjects: when render multiple objects notice the sequence.
+   -renderBob : draw bob according to bob's state.(two kind of draw , in animation and not in animation)
+   -renderPlatforms : draw platform according to platform'state.
+   -renderItems : draw springs, coins
+   -renderSequirrels : draw squirrels.
+   -renderCastle: draw castle.
+In GameObject
+ -now let's see the game objects, what is a game object contains.
+ -position,(x,y).
+ -bounds, a rectangle stands for the area a game object take place.
+In DynamicGameObject
+ -DynamicGameObject extends from GameObject add some dynamic attributes: velocity and acceler.
+ -velocity (x,y)
+ -accel(x,y)
+In Castle: a simple game object.
+ -castle width and castle height.
+In Coin: a simple game object will display as animation
+ -width, height,score.
+ -also with a stateTime , used for animation.
+In Spring: a simple game object.
+ -width,height.
+In Squirrel: a dynamic game object animation.
+ -width,height,velocity.
+ -update,update position dual to velocity, update bounds dual to position, update position and velocity if out of screen.
+ -update stateTime to display animation
+In Bob: a dynamic game object with velocity, animation and state. 
+ -state:
+  -jump,fall,hit
+ -velocity:
+  -jump velocity(y), move velocity(x)
+ -width, height
+ -update: 
+   -update bob's velocity dual to world's gravity.
+   -update bob's positon dual to bob's velocity.
+   -update bob's bounds dual to bob's position.
+   -if bob's velocity.y > 0 and not hit, bob's state is jump.
+   -if bob's velocity.y < 0 and not hit, bob's state is fall.
+   -if position.x out of screen, reset it.
+ -hitSquirrle: if bob hit squirrle , bob status to hit and velocity will be 0.
+ -hitPlatform: reset bob's velocity.y.
+ -hitSpring: reset bob's velocity.y up to 1.5 times.
+In Animation: 
+ -constructor: display frames every frame duration.
+ -getKeyFrame: get frame according to time.
+In Assets:
+ -load textures, textures regions, animation, bitmap font, music and sound.
+In OverlapTester: 
+ -judge two rectangles overlap.
+In Settings:
+ -sound setting, scores settings.
 
