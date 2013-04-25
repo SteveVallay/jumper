@@ -78,7 +78,7 @@ public class WorldRenderer {
 
 		float side = world.bob.velocity.x < 0 ? -1 : 1;
 		if (side < 0)
-			batch.draw(keyFrame, world.bob.position.x + 0.5f, world.bob.position.y - 0.5f, side * 0.5f, 0.5f);
+			batch.draw(keyFrame, world.bob.position.x + 0.5f, world.bob.position.y - 0.5f, side * 1, 1);
 		else
 			batch.draw(keyFrame, world.bob.position.x - 0.5f, world.bob.position.y - 0.5f, side * 1, 1);
 	}
@@ -118,7 +118,7 @@ public class WorldRenderer {
 			TextureRegion keyFrame = Assets.squirrelFly.getKeyFrame(squirrel.stateTime, Animation.ANIMATION_LOOPING);
 			float side = squirrel.velocity.x < 0 ? -1 : 1;
 			if (side < 0)
-				batch.draw(keyFrame, squirrel.position.x + 0.5f, squirrel.position.y - 0.5f, side * 0.5f, 0.5f);
+				batch.draw(keyFrame, squirrel.position.x + 0.5f, squirrel.position.y - 0.5f, side * 1, 1);
 			else
 				batch.draw(keyFrame, squirrel.position.x - 0.5f, squirrel.position.y - 0.5f, side * 1, 1);
 		}

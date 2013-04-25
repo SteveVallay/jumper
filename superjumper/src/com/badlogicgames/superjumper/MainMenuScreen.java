@@ -56,7 +56,7 @@ public class MainMenuScreen implements Screen {
 
 			if (OverlapTester.pointInRectangle(playBounds, touchPoint.x, touchPoint.y)) {
 				Assets.playSound(Assets.clickSound);
-				game.setScreen(new GameScreen(game));
+				game.setScreen(new GameScreen(game, GameScreen.LEVEL_INIT));
 				return;
 			}
 			if (OverlapTester.pointInRectangle(highscoresBounds, touchPoint.x, touchPoint.y)) {
