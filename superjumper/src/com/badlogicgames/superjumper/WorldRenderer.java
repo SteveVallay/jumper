@@ -126,6 +126,6 @@ public class WorldRenderer {
 
 	private void renderCastle () {
 		Castle castle = world.castle;
-		batch.draw(Assets.castle, castle.position.x - 1, castle.position.y - 1, 2, 2);
+		batch.draw(Assets.castle, castle.position.x - 1, castle.position.y - 1, 4, 4);
 	}
 }

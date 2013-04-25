@@ -26,10 +26,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.GLCommon;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogicgames.superjumper.World.WorldListener;
+import com.badlogicgames.utils.Log;
 
 public class GameScreen implements Screen {
 	static final int GAME_READY = 0;
@@ -37,6 +39,9 @@ public class GameScreen implements Screen {
 	static final int GAME_PAUSED = 2;
 	static final int GAME_LEVEL_END = 3;
 	static final int GAME_OVER = 4;
+	static final int LEVEL_INIT = 1;
+	static final int LEVEL_MAX = 5;
+	static String TAG = "GameScreen";
 
 	Game game;
 
@@ -54,8 +59,9 @@ public class GameScreen implements Screen {
 	int lastHeightScore;
 	String scoreString;
 	String heightScoreString;
+	int mLevel = LEVEL_INIT;
 
-	public GameScreen (Game game) {
+	public GameScreen (Game game,int level) {
 		this.game = game;
 
 		state = GAME_READY;
@@ -84,11 +90,17 @@ public class GameScreen implements Screen {
 				Assets.playSound(Assets.coinSound);
 			}
 		};
-		world = new World(worldListener);
-		renderer = new WorldRenderer(batcher, world);
+		generageWorld(level);
 		pauseBounds = new Rectangle(320 - 64, 480 - 64, 64, 64);
 		resumeBounds = new Rectangle(160 - 96, 240, 192, 36);
 		quitBounds = new Rectangle(160 - 96, 240 - 36, 192, 36);
+	}
+
+	protected void generageWorld(int level){
+		mLevel = level;
+		world = new World(worldListener);
+		world.generateLevel(mLevel);
+		renderer = new WorldRenderer(batcher, world);
 		lastScore = 0;
 		lastHeightScore = 0;
 		scoreString = "SCORE: 0";
@@ -160,10 +172,10 @@ public class GameScreen implements Screen {
 			state = GAME_OVER;
 			//[draw height instead of coin scores][start]
 			//do not show score , show height.
-//			if (lastScore >= Settings.highscores[4])
-//				scoreString = "NEW HIGHSCORE: " + lastScore;
-//			else
-//				scoreString = "SCORE: " + lastScore;
+			if (lastScore >= Settings.highscores[4])
+				scoreString = "NEW HIGHSCORE: " + lastScore;
+			else
+				scoreString = "SCORE: " + lastScore;
 			if (lastHeightScore >= Settings.heightScores[Settings.heightScores.length - 1]) {
 				heightScoreString = "NEW HIGH: " + lastHeightScore;
 			} else {
@@ -196,16 +208,21 @@ public class GameScreen implements Screen {
 
 	private void updateLevelEnd () {
 		if (Gdx.input.justTouched()) {
-			world = new World(worldListener);
-			renderer = new WorldRenderer(batcher, world);
-			world.score = lastScore;
-			state = GAME_READY;
+			if(mLevel < LEVEL_MAX){
+				mLevel ++;
+			   generageWorld(mLevel);
+				state = GAME_READY;
+			}else{
+				Log.d(TAG, "all level end...");
+			}
+
 		}
 	}
 
 	private void updateGameOver () {
 		if (Gdx.input.justTouched()) {
-			game.setScreen(new MainMenuScreen(game));
+			//game.setScreen(new MainMenuScreen(game));
+			game.setScreen(new GameScreen(game, mLevel));
 		}
 	}
 
@@ -241,14 +258,22 @@ public class GameScreen implements Screen {
 
 	private void presentReady () {
 		batcher.draw(Assets.ready, 160 - 192 / 2, 240 - 32 / 2, 192, 32);
+		String levelTextString = "Level:" + mLevel;
+		float levelWidth = Assets.font.getBounds(levelTextString).width;
+		Assets.font.draw(batcher, levelTextString, 160 - levelWidth/2,280);
 	}
 
 	private void presentRunning () {
 		batcher.draw(Assets.pause, 320 - 64, 480 - 64, 64, 64);
 		//[draw height instead of coin scores][start]
-		//Assets.font.draw(batcher, scoreString, 16, 480 - 20);
+		//Assets.font.draw(batcher, scoreString, 16, 480);
 		Assets.font.draw(batcher, heightScoreString, 16, 480 - 20);
 		//[draw height instead of coin scores][end]
+		Texture region;
+		//batcher.draw(region, x, y)
+		String levelTextString = "Level:" + mLevel;
+		Assets.font.draw(batcher, levelTextString, 16, 480-40);
+
 	}
 
 	private void presentPaused () {
@@ -262,10 +287,15 @@ public class GameScreen implements Screen {
 	private void presentLevelEnd () {
 		String topText = "the princess is ...";
 		String bottomText = "in another castle!";
+		String levelTextString = "Level:" + mLevel;
 		float topWidth = Assets.font.getBounds(topText).width;
 		float bottomWidth = Assets.font.getBounds(bottomText).width;
+		float levelWidth = Assets.font.getBounds(levelTextString).width;
 		Assets.font.draw(batcher, topText, 160 - topWidth / 2, 480 - 40);
 		Assets.font.draw(batcher, bottomText, 160 - bottomWidth / 2, 40);
+		if(mLevel < LEVEL_MAX){
+			Assets.font.draw(batcher, levelTextString, 160 - levelWidth / 2, 240);
+		}
 	}
 
 	private void presentGameOver () {

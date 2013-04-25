@@ -39,6 +39,9 @@ public class Platform extends DynamicGameObject {
 			velocity.x = PLATFORM_VELOCITY;
 		}
 	}
+	public void setVelocity(float v){
+		velocity.x = v;
+	}
 
 	public void update (float deltaTime) {
 		if (type == PLATFORM_TYPE_MOVING) {
