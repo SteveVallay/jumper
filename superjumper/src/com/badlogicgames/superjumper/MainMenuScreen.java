@@ -19,14 +19,18 @@ package com.badlogicgames.superjumper;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.GLCommon;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogicgames.utils.Log;
 
 public class MainMenuScreen implements Screen {
+	private static final String TAG = "MainMenu";
+
 	Game game;
 
 	OrthographicCamera guiCam;
@@ -36,6 +40,8 @@ public class MainMenuScreen implements Screen {
 	Rectangle highscoresBounds;
 	Rectangle helpBounds;
 	Vector3 touchPoint;
+	private float startTime = System.nanoTime();
+	float SECONDS_TIME = 0;
 
 	public MainMenuScreen (Game game) {
 		this.game = game;
@@ -51,6 +57,12 @@ public class MainMenuScreen implements Screen {
 	}
 
 	public void update (float deltaTime) {
+		
+		
+		if (System.nanoTime() - startTime >= 1000000000) {
+			SECONDS_TIME++;
+			startTime = System.nanoTime();
+		}		
 		if (Gdx.input.justTouched()) {
 			guiCam.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 
@@ -78,6 +90,18 @@ public class MainMenuScreen implements Screen {
 				else
 					Assets.music.pause();
 			}
+		}
+		
+		if (Gdx.input.isKeyPressed(Keys.BACK)) {
+			keyBackPressed();
+		}
+	}
+
+	private void keyBackPressed () {
+		// TODO Auto-generated method stub
+		if(SECONDS_TIME > 1.5f){
+		    Log.d(TAG, "keyBackPressed....");
+		    Gdx.app.exit();
 		}
 	}
 

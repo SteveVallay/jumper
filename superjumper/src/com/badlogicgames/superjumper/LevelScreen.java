@@ -3,6 +3,7 @@ package com.badlogicgames.superjumper;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -40,6 +41,7 @@ public class LevelScreen implements Screen{
 		batcher = new SpriteBatch();
 		 stage = new Stage(320,480, false);
        Gdx.input.setInputProcessor(stage);
+       Gdx.input.setCatchBackKey(true);
        Table table = new Table();
        //table.setFillParent(true);
        table.setLayoutEnabled(true);
@@ -102,6 +104,10 @@ public class LevelScreen implements Screen{
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 		Table.drawDebug(stage);
+		
+		if (Gdx.input.isKeyPressed(Keys.BACK)) {
+			keyBackPressed();
+		}
 	}
 
 	@Override
@@ -139,6 +145,12 @@ public class LevelScreen implements Screen{
 		// TODO Auto-generated method stub
 		Log.d(TAG, "dispose");
 		 stage.dispose();
+	}
+	
+	public void keyBackPressed() {
+		Log.d(TAG, "keyBackPressed.... ");
+		game.setScreen(
+				new MainMenuScreen(game));
 	}
 
 }
