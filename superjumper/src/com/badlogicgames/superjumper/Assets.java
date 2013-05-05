@@ -77,8 +77,8 @@ public class Assets {
 	}
 
 	public static void load () {
-		//background = loadTexture("data/background.png");
-		background = loadTexture("data/levelChooseBg.png");
+		background = loadTexture("data/background.png");
+		//background = loadTexture("data/levelChooseBg.png");
 		backgroundRegion = new TextureRegion(background, 0, 0, 320, 480);
 		
 		levelTexture = loadTexture("data/levelChooseBg.png");
