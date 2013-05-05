@@ -63,7 +63,7 @@ public class GameScreen implements Screen {
 
 	public GameScreen (Game game,int level) {
 		this.game = game;
-
+		Log.d(TAG, "game screen: level is:"+level);
 		state = GAME_READY;
 		guiCam = new OrthographicCamera(320, 480);
 		guiCam.position.set(320 / 2, 480 / 2, 0);
@@ -97,6 +97,7 @@ public class GameScreen implements Screen {
 	}
 
 	protected void generageWorld(int level){
+		Log.d(TAG, "generate :"+level);
 		mLevel = level;
 		world = new World(worldListener);
 		world.generateLevel(mLevel);
@@ -207,11 +208,13 @@ public class GameScreen implements Screen {
 	}
 
 	private void updateLevelEnd () {
+		Log.d(TAG, "update level end:" + mLevel);
 		if (Gdx.input.justTouched()) {
 			if(mLevel < LEVEL_MAX){
 				mLevel ++;
 			   generageWorld(mLevel);
 				state = GAME_READY;
+				Log.d(TAG, "update level in:" + mLevel);
 			}else{
 				Log.d(TAG, "all level end...");
 			}

@@ -55,14 +55,46 @@ public class Assets {
 	public static Sound hitSound;
 	public static Sound coinSound;
 	public static Sound clickSound;
+	
+	public static Texture levelTexture;
+	public static TextureRegion levelRegion;
+	public static Texture btnTexture;
+	public static TextureRegion btnUpRegion1;
+	public static TextureRegion btnDownRegion1;
+	public static TextureRegion btnUpRegion2;
+	public static TextureRegion btnDownRegion2;
+	public static TextureRegion btnUpRegion3;
+	public static TextureRegion btnDownRegion3;
+	public static TextureRegion btnUpRegion4;
+	public static TextureRegion btnDownRegion4;
+	public static TextureRegion btnUpRegion5;
+	public static TextureRegion btnDownRegion5;
+	
+	static final int BTN_SIZE = 84;
 
 	public static Texture loadTexture (String file) {
 		return new Texture(Gdx.files.internal(file));
 	}
 
 	public static void load () {
-		background = loadTexture("data/background.png");
+		//background = loadTexture("data/background.png");
+		background = loadTexture("data/levelChooseBg.png");
 		backgroundRegion = new TextureRegion(background, 0, 0, 320, 480);
+		
+		levelTexture = loadTexture("data/levelChooseBg.png");
+		levelRegion = new TextureRegion(levelTexture, 0, 0, 320, 480);
+		
+		btnTexture = loadTexture("data/sheet1.png");
+		btnUpRegion1 = new TextureRegion(btnTexture,2,346,BTN_SIZE,BTN_SIZE);
+		btnDownRegion1 = new TextureRegion(btnTexture,2,346,BTN_SIZE,BTN_SIZE);
+		btnUpRegion2 = new TextureRegion(btnTexture,2,260,BTN_SIZE,BTN_SIZE);
+		btnDownRegion2 = new TextureRegion(btnTexture,2,260,BTN_SIZE,BTN_SIZE);
+		btnUpRegion3 = new TextureRegion(btnTexture,2,174,BTN_SIZE,BTN_SIZE);
+		btnDownRegion3 = new TextureRegion(btnTexture,2,174,BTN_SIZE,BTN_SIZE);
+		btnUpRegion4 = new TextureRegion(btnTexture,2,88,BTN_SIZE,BTN_SIZE);
+		btnDownRegion4 = new TextureRegion(btnTexture,2,88,BTN_SIZE,BTN_SIZE);
+		btnUpRegion5 = new TextureRegion(btnTexture,2,2,BTN_SIZE,BTN_SIZE);
+		btnDownRegion5 = new TextureRegion(btnTexture,2,2,BTN_SIZE,BTN_SIZE);
 
 		items = loadTexture("data/items.png");
 		mainMenu = new TextureRegion(items, 0, 224, 300, 110);
