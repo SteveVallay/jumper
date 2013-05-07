@@ -1,0 +1,46 @@
+sheet1.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+level01
+  rotate: false
+  xy: 2, 346
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
+level02
+  rotate: false
+  xy: 2, 260
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
+level04
+  rotate: false
+  xy: 2, 88
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
+backBtn
+  rotate: false
+  xy: 2, 432
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+level03
+  rotate: false
+  xy: 2, 174
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
+level05
+  rotate: false
+  xy: 2, 2
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1

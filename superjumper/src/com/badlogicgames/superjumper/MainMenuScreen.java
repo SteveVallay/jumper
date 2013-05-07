@@ -54,6 +54,8 @@ public class MainMenuScreen implements Screen {
 		highscoresBounds = new Rectangle(160 - 150, 200 - 18, 300, 36);
 		helpBounds = new Rectangle(160 - 150, 200 - 18 - 36, 300, 36);
 		touchPoint = new Vector3();
+		Gdx.input.setCatchBackKey(true);
+
 	}
 
 	public void update (float deltaTime) {
@@ -99,7 +101,7 @@ public class MainMenuScreen implements Screen {
 
 	private void keyBackPressed () {
 		// TODO Auto-generated method stub
-		if(SECONDS_TIME > 1.5f){
+		if(SECONDS_TIME > 0.5f){
 		    Log.d(TAG, "keyBackPressed....");
 		    Gdx.app.exit();
 		}
@@ -141,6 +143,7 @@ public class MainMenuScreen implements Screen {
 
 	@Override
 	public void hide () {
+
 	}
 
 	@Override
@@ -154,5 +157,6 @@ public class MainMenuScreen implements Screen {
 
 	@Override
 	public void dispose () {
+
 	}
 }

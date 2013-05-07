@@ -12,10 +12,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogicgames.utils.Log;
 
@@ -33,6 +36,7 @@ public class LevelScreen implements Screen{
 	TextureRegion upRegion[] = new TextureRegion[LEVEL];
 	TextureRegion downRegion[] = new TextureRegion[LEVEL];
 	TextButton buttonts[] = new TextButton[LEVEL];
+	ImageButton btnBack;
 
 	public LevelScreen(final Game game){
 		this.game = game;	
@@ -40,8 +44,7 @@ public class LevelScreen implements Screen{
 		guiCam.position.set(320 / 2, 480 / 2, 0);
 		batcher = new SpriteBatch();
 		 stage = new Stage(320,480, false);
-       Gdx.input.setInputProcessor(stage);
-       Gdx.input.setCatchBackKey(true);
+		Gdx.input.setInputProcessor(stage);
        Table table = new Table();
        //table.setFillParent(true);
        table.setLayoutEnabled(true);
@@ -62,7 +65,21 @@ public class LevelScreen implements Screen{
 		upRegion[4] = Assets.btnUpRegion5;
 		downRegion[4] = Assets.btnDownRegion5;
 		BitmapFont buttonFont = Assets.font;
-
+		ImageButtonStyle imgStyle = new ImageButtonStyle();
+	   Drawable drawable = new TextureRegionDrawable(Assets.btnBackRegion);
+		imgStyle.imageDown = drawable;
+		imgStyle.imageUp = drawable;
+		btnBack = new ImageButton(imgStyle);
+		btnBack.setPosition(20, 20);
+		btnBack.addListener(new ActorGestureListener(){
+			@Override
+		    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+			  super.touchUp(event, x, y, pointer, button);
+			  game.setScreen(new MainMenuScreen(game));
+		    }
+		});
+		stage.addActor(btnBack);
+		
 		for(int i= LEVEL -1  ;i >= 0 ;i--){
 			TextButtonStyle style = new TextButtonStyle();
 			style.up = new TextureRegionDrawable(upRegion[i]);
@@ -106,7 +123,7 @@ public class LevelScreen implements Screen{
 		Table.drawDebug(stage);
 		
 		if (Gdx.input.isKeyPressed(Keys.BACK)) {
-			keyBackPressed();
+			//keyBackPressed();
 		}
 	}
 
@@ -138,6 +155,7 @@ public class LevelScreen implements Screen{
 	@Override
 	public void resume () {
 		// TODO Auto-generated method stub
+
 	}
 
 	@Override

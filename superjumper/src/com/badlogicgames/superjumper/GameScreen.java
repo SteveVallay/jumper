@@ -128,6 +128,10 @@ public class GameScreen implements Screen {
 			updateGameOver();
 			break;
 		}
+//		if (Gdx.input.isKeyPressed(Keys.BACK)) {
+//			keyBackPressed();
+//		}
+		
 	}
 
 	private void updateReady () {
@@ -323,6 +327,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show () {
+		 Gdx.input.setCatchBackKey(true);
 	}
 
 	@Override
@@ -332,13 +337,28 @@ public class GameScreen implements Screen {
 	@Override
 	public void pause () {
 		if (state == GAME_RUNNING) state = GAME_PAUSED;
+		 Gdx.input.setCatchBackKey(false);
 	}
 
 	@Override
 	public void resume () {
+		 Gdx.input.setCatchBackKey(true);
 	}
 
 	@Override
 	public void dispose () {
+		 Gdx.input.setCatchBackKey(false);
+	}
+	public void keyBackPressed() {
+		Log.d(TAG, "keyBackPressed.... ");
+		if(state != GAME_PAUSED ){
+			Assets.playSound(Assets.clickSound);
+			state = GAME_PAUSED;
+		} else {
+			Assets.playSound(Assets.clickSound);
+			game.setScreen(
+				new LevelScreen(game));
+		}
+
 	}
 }

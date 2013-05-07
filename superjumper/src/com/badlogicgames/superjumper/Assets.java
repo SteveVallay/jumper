@@ -21,6 +21,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Assets {
@@ -69,6 +70,7 @@ public class Assets {
 	public static TextureRegion btnDownRegion4;
 	public static TextureRegion btnUpRegion5;
 	public static TextureRegion btnDownRegion5;
+	public static TextureRegion btnBackRegion;
 	
 	static final int BTN_SIZE = 84;
 
@@ -85,7 +87,8 @@ public class Assets {
 		levelRegion = new TextureRegion(levelTexture, 0, 0, 320, 480);
 		
 		btnTexture = loadTexture("data/sheet1.png");
-		btnUpRegion1 = new TextureRegion(btnTexture,2,346,BTN_SIZE,BTN_SIZE);
+		TextureAtlas atlas=new TextureAtlas(Gdx.files.internal("data/sheet1.txt"));
+		btnUpRegion1 = new TextureRegion(atlas.findRegion("level01"));
 		btnDownRegion1 = new TextureRegion(btnTexture,2,346,BTN_SIZE,BTN_SIZE);
 		btnUpRegion2 = new TextureRegion(btnTexture,2,260,BTN_SIZE,BTN_SIZE);
 		btnDownRegion2 = new TextureRegion(btnTexture,2,260,BTN_SIZE,BTN_SIZE);
@@ -95,6 +98,7 @@ public class Assets {
 		btnDownRegion4 = new TextureRegion(btnTexture,2,88,BTN_SIZE,BTN_SIZE);
 		btnUpRegion5 = new TextureRegion(btnTexture,2,2,BTN_SIZE,BTN_SIZE);
 		btnDownRegion5 = new TextureRegion(btnTexture,2,2,BTN_SIZE,BTN_SIZE);
+		btnBackRegion = atlas.findRegion("backBtn");
 
 		items = loadTexture("data/items.png");
 		mainMenu = new TextureRegion(items, 0, 224, 300, 110);
